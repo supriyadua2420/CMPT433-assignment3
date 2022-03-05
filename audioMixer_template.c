@@ -8,6 +8,8 @@
 #include <limits.h>
 #include <alloca.h> // needed for mixer
 
+int sizeInBytes =0;
+
 static snd_pcm_t *handle;
 
 #define DEFAULT_VOLUME 80
@@ -40,7 +42,7 @@ static playbackSound_t soundBites[MAX_SOUND_BITES];
 void* playbackThread(void* arg);
 static _Bool stopping = false;
 static pthread_t playbackThreadId;
-//static pthread_mutex_t audioMutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t audioMutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int volume = 0;
 
@@ -53,6 +55,7 @@ void AudioMixer_init(void)
 	//     sound bite.
 	for(int i =0; i <MAX_SOUND_BITES; i++){
 		soundBites[i].pSound = NULL;
+		//soundBites[i].location = i;
 	}
 
 	// Open the PCM output
@@ -105,7 +108,7 @@ void AudioMixer_readWaveFileIntoMemory(char *fileName, wavedata_t *pSound)
 
 	// Get file size
 	fseek(file, 0, SEEK_END);
-	int sizeInBytes = ftell(file) - PCM_DATA_OFFSET;
+	 sizeInBytes = ftell(file) - PCM_DATA_OFFSET;
 	pSound->numSamples = sizeInBytes / SAMPLE_SIZE;
 
 	// Search to the start of the data in the file
@@ -157,14 +160,19 @@ void AudioMixer_queueSound(wavedata_t *pSound_n)
 	*/
 	
 	
-	for(int i =0; i <4; i++){
+	for(int i =0; i <2; i++){
 		if(soundBites[i].pSound == NULL){
-			soundBites[i].pSound = pSound_n;
-			break;
+		   pthread_mutex_lock(&audioMutex);
+		   {
+		     soundBites[i].pSound = pSound_n;
+		     soundBites[i].location = 0;
+		   }
+			pthread_mutex_unlock(&audioMutex);
+		    break;
 		}
-	 printf("no new slots found.\n");
+	 //printf("no new slots found.\n");
 	}
-
+	printf("no new slots found.\n");
 }
 
 
@@ -237,10 +245,10 @@ void AudioMixer_setVolume(int newVolume)
 // Fill the playbackBuffer array with new PCM values to output.
 //    playbackBuffer: buffer to fill with new PCM data from sound bites.
 //    size: the number of values to store into playbackBuffer
-/*static void fillPlaybackBuffer(short *playbackBuffer, int size)
+static void fillPlaybackBuffer(short *playbackBuffer, int size)
 {
 	
-	  REVISIT: Implement this
+	/* REVISIT: Implement this
 	 * 1. Wipe the playbackBuffer to all 0's to clear any previous PCM data.
 	 *    Hint: use memset()
 	 * 2. Since this is called from a background thread, and soundBites[] array
@@ -277,40 +285,48 @@ void AudioMixer_setVolume(int newVolume)
 	 *              someNum = 42;
 	 *          }
 	 *          ... use someNum vs myArray[someIdx].value;
-	 *
+	 */
 	 
-	//wavedata_t sampleFile;
-	//AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sampleFile);
-	
+	//bug
 	memset(playbackBuffer, 0, playbackBufferSize);
-	playbackBufferSize = soundBites[0].pSound->numSamples;
-	playbackBuffer = soundBites[0].pSound->pData;
+
+	
+	for(int i = 0; i <1; i++){
+		if(soundBites[i].pSound != NULL){
+
+		pthread_mutex_lock(&audioMutex);
+		{
+			for(int j = 0; j < size; j++){
+		 	playbackBuffer[j] = soundBites[i].pSound->pData[j];
+		 }
+		 	 
+		}
+		pthread_mutex_unlock(&audioMutex);
+	
+	 }
+	}
 	
 }
-*/
+
 
 void* playbackThread(void* arg)
 {	
 	wavedata_t sound;
+	//wavedata_t sound2;
 	AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
-	
+	//AudioMixer_readWaveFileIntoMemory(SNARE, &sound2);
 	//!stopping
-	
+	AudioMixer_queueSound(&sound);
+	//AudioMixer_queueSound(&sound2);
 	int i = 0;
-	while (i < 4) {
+	while (i<1) {
 		// Generate next block of audio
-		//fillPlaybackBuffer(playbackBuffer, playbackBufferSize);
 		printf("inside the loop\n");
 		
-		AudioMixer_queueSound(&sound);
-		//fillPlaybackBuffer(playbackBuffer, playbackBufferSize);
+		fillPlaybackBuffer(playbackBuffer, playbackBufferSize);
+
+			
 		
-		//playbackBufferSize = sampleFile.numSamples;
-		//playbackBuffer = sampleFile.pData;
-			
-		playbackBufferSize = soundBites[i].pSound->numSamples;
-		playbackBuffer = soundBites[i].pSound->pData;
-			
 		// Output the audio
 		snd_pcm_sframes_t frames = snd_pcm_writei(handle,
 				playbackBuffer, playbackBufferSize);
