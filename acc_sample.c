@@ -1,11 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <linux/i2c-dev.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
- 
-int main() 
+#include "acc_sample.h"
+#include "wave_player.h"
+//#include "audioMixer_template.h"
+
+wavedata_t sound;
+
+static pthread_t id;
+
+static char config[2] = {0};
+static char data[7] = {0};
+
+static int initI2cBus(void)
 {
 	// Create I2C bus
 	int file;
@@ -17,62 +21,120 @@ int main()
 	}
 	// Get I2C device, MMA8452Q I2C address is 0x1C(28)
 	ioctl(file, I2C_SLAVE, 0x1C);
- 
+	
+	return file;
+}
+
+void standbyMode(int file){
 	// Select mode register(0x2A)
 	// Standby mode(0x00)
-	char config[2] = {0};
 	config[0] = 0x2A;
 	config[1] = 0x00;
 	write(file, config, 2);
- 
+}
+
+void activeMode(int file){
 	// Select mode register(0x2A)
 	// Active mode(0x01)
 	config[0] = 0x2A;
 	config[1] = 0x01;
 	write(file, config, 2);
- 
+}
+
+void setRange(int file){
 	// Select configuration register(0x0E)
 	// Set range to +/- 2g(0x00)
 	config[0] = 0x0E;
 	config[1] = 0x00;
 	write(file, config, 2);
-	sleep(0.5);
- 
+}
+
+int digit12(int index1, int index2){
+	//int xAccl = (data[1] << 8) | (data[2]);
+	int Accl = ((data[index1] * 256) + data[index2]) / 16;
+	if(Accl > 2047)
+	{
+		Accl -= 4096;
+	}
+	
+	return Accl;
+}
+
+
+void readData(int file){
+
 	// Read 7 bytes of data(0x00)
 	// staus, xAccl msb, xAccl lsb, yAccl msb, yAccl lsb, zAccl msb, zAccl lsb
 	char reg[1] = {0x00};
 	write(file, reg, 1);
-	char data[7] = {0};
 	if(read(file, data, 7) != 7)
 	{
 		printf("Error : Input/Output error \n");
 	}
-	else
-	{
-		// Convert the data to 12-bits
-		int xAccl = ((data[1] * 256) + data[2]) / 16;
-		if(xAccl > 2047)
-		{
-			xAccl -= 4096;
+	else{
+		int x = digit12(1,2);
+		int y = digit12(3,4);
+		int z = digit12(5,6);
+		
+		
+		if(x > 200 || x < -200){
+			printf(" x threshold reached \n");
+			printf("Acceleration in X-Axis : %d \n", x);
+			//AudioMixer_queueSound(&sound);
+			play_once();
 		}
- 
-		int yAccl = ((data[3] * 256) + data[4]) / 16;
-		if(yAccl > 2047)
-		{
-			yAccl -= 4096;
+		if(y > 200 || y < -200){
+			printf(" y threshold reached \n");
+			printf("Acceleration in Y-Axis : %d \n", y);
+			//AudioMixer_queueSound(&sound);
+			play_once();
 		}
- 
-		int zAccl = ((data[5] * 256) + data[6]) / 16;
-		if(zAccl > 2047)
-		{
-			zAccl -= 4096;
+		if(z > 1200 || z < -200){
+			printf(" z threshold reached \n");
+			printf("Acceleration in Z-Axis : %d \n", z);
+			//AudioMixer_queueSound(&sound);
+			play_once();
 		}
- 
-		// Output data to screen
-		printf("Acceleration in X-Axis : %d \n", xAccl);
-		printf("Acceleration in Y-Axis : %d \n", yAccl);
-		printf("Acceleration in Z-Axis : %d \n", zAccl);
+	}
+}
+
+
+
+void* routine(){
+
+
+//modify this routine to have the queue functionality
+//set thresholds
+	int file = initI2cBus();
+	setRange(file);
+	
+	
+	config_wave(); //del this once queue sound works
+	//int i =0;
+	while(1){
+	 standbyMode(file);
+	 activeMode(file);
+	 //AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
+	 sleep(0.5);
+	 
+	 readData(file);
+	 sleep(2);
+	 
+	
+	 //i++;
 	}
 	
-	return 0;
+	return NULL;
+	
 }
+
+void acc_init(void){
+	pthread_create(&id, NULL, &routine, NULL);
+}
+
+void acc_cleanup(void){
+	//clean();
+	pthread_join(id, NULL);
+}
+ 
+

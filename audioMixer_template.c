@@ -8,8 +8,6 @@
 #include <limits.h>
 #include <alloca.h> // needed for mixer
 
-int sizeInBytes =0;
-
 static snd_pcm_t *handle;
 
 #define DEFAULT_VOLUME 80
@@ -108,7 +106,7 @@ void AudioMixer_readWaveFileIntoMemory(char *fileName, wavedata_t *pSound)
 
 	// Get file size
 	fseek(file, 0, SEEK_END);
-	 sizeInBytes = ftell(file) - PCM_DATA_OFFSET;
+	int sizeInBytes = ftell(file) - PCM_DATA_OFFSET;
 	pSound->numSamples = sizeInBytes / SAMPLE_SIZE;
 
 	// Search to the start of the data in the file
@@ -160,7 +158,7 @@ void AudioMixer_queueSound(wavedata_t *pSound_n)
 	*/
 	
 	
-	for(int i =0; i <2; i++){
+	for(int i =0; i <MAX_SOUND_BITES; i++){
 		if(soundBites[i].pSound == NULL){
 		   pthread_mutex_lock(&audioMutex);
 		   {
@@ -287,22 +285,29 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 	 *          ... use someNum vs myArray[someIdx].value;
 	 */
 	 
-	//bug
-	memset(playbackBuffer, 0, playbackBufferSize);
+	memset(playbackBuffer, 0, size);
 
-	
-	for(int i = 0; i <1; i++){
-		if(soundBites[i].pSound != NULL){
-
+	printf("inside fillplaybackbuffer funct \n");	
+	for(int i = 0; i <MAX_SOUND_BITES; i++){	
+		
 		pthread_mutex_lock(&audioMutex);
 		{
-			for(int j = 0; j < size; j++){
-		 	playbackBuffer[j] = soundBites[i].pSound->pData[j];
+		 if(soundBites[i].pSound != NULL){
+		
+		 int offset = soundBites[i].location;
+		 int limit = soundBites[i].pSound->numSamples;
+		 
+		 for(int j = 0; j < size && offset< limit; j++){
+		  
+		  short temp = soundBites[i].pSound->pData[offset];
+		  playbackBuffer[j] += temp;
+		  offset++;
 		 }
-		 	 
+		 soundBites[i].location = offset;
+
 		}
 		pthread_mutex_unlock(&audioMutex);
-	
+		
 	 }
 	}
 	
@@ -310,23 +315,12 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 
 
 void* playbackThread(void* arg)
-{	
-	wavedata_t sound;
-	//wavedata_t sound2;
-	AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
-	//AudioMixer_readWaveFileIntoMemory(SNARE, &sound2);
-	//!stopping
-	AudioMixer_queueSound(&sound);
-	//AudioMixer_queueSound(&sound2);
-	int i = 0;
-	while (i<1) {
+{
+	while (1) {
 		// Generate next block of audio
-		printf("inside the loop\n");
 		
 		fillPlaybackBuffer(playbackBuffer, playbackBufferSize);
 
-			
-		
 		// Output the audio
 		snd_pcm_sframes_t frames = snd_pcm_writei(handle,
 				playbackBuffer, playbackBufferSize);
@@ -346,9 +340,9 @@ void* playbackThread(void* arg)
 					playbackBufferSize, frames);
 		}
 		
-		i++;
 	}
-
+	
+	printf("played the audio \n");
 	return NULL;
 }
 

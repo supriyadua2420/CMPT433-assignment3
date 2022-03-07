@@ -1,15 +1,20 @@
+"use strict";
 // After creating package.json, install modules:
 //   $ npm install
 //
 // Launch server with:
 //   $ node server.js
+var PORT_NUMBER = 8088;
 
 
+var http = require('http');
+var fs   = require('fs');
+var path = require('path');
+var mime = require('mime');
 
 /* 
  * Create the static web server
  */
-var http = require('http');
 var server = http.createServer(function(request, response) {
 	var filePath = false;
 	
@@ -23,12 +28,10 @@ var server = http.createServer(function(request, response) {
 	serveStatic(response, absPath);
 });
 
-var PORT_NUMBER = 8082;
 server.listen(PORT_NUMBER, function() {
 	console.log("Server listeneing on port " + PORT_NUMBER);
 });
 
-var fs   = require('fs');
 function serveStatic(response, absPath) {
 	fs.exists(absPath, function(exists) {
 		if (exists) {
@@ -51,8 +54,6 @@ function send404(response) {
 	response.end();
 }
 
-var mime = require('mime');
-var path = require('path');
 function sendFile(response, filePath, fileContents) {
 	response.writeHead(
 			200,
@@ -60,3 +61,10 @@ function sendFile(response, filePath, fileContents) {
 		);
 	response.end(fileContents);
 }
+
+
+/*
+ * Create the Math server to listen for the websocket
+ */
+var mathServer = require('./lib/beatbox');
+mathServer.listen(server);

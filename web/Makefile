@@ -1,5 +1,5 @@
 # Deploy this Node.js project to the public folder
-PROJECT_NAME=10-StaticServer
+PROJECT_NAME=web
 DEPLOY_PATH= $(HOME)/cmpt433/public/node/$(PROJECT_NAME)-copy
 
 all: deploy node_install
