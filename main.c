@@ -9,30 +9,34 @@
 int main(){
 
 
-	/*AudioMixer_init();
+	
+	AudioMixer_init();
 
 	wavedata_t sound;
-	AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
-	printf("almost done \n");
-	AudioMixer_queueSound(&sound);
+	AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 	//
+	int i =0;
+	while(i<4){
+	AudioMixer_queueSound(&sound);
+	sleep(3);
+	i++;
+	}
+	AudioMixer_freeWaveFileData(&sound);
+
 	AudioMixer_cleanup();
-	exit(1);*/
+	
+	
 	
 	//AudioMixer_init();
-	acc_init();
+	//acc_init();
 	
-	acc_cleanup();
+	//acc_cleanup();
 	//AudioMixer_cleanup();
 	
 	
 	//joystick_init();
 	//joystick_cleanup();
 	
-	/*printf("Beginning play-back of %s\n", SOURCE_FILE);
-	config();
-	play_once();
-	clean();*/
 	
 return 0;
 }

@@ -165,12 +165,12 @@ void AudioMixer_queueSound(wavedata_t *pSound_n)
 		     soundBites[i].pSound = pSound_n;
 		     soundBites[i].location = 0;
 		   }
-			pthread_mutex_unlock(&audioMutex);
+		   pthread_mutex_unlock(&audioMutex);
 		    break;
 		}
 	 //printf("no new slots found.\n");
 	}
-	printf("no new slots found.\n");
+	//printf("no new slots found.\n");
 }
 
 
@@ -285,9 +285,8 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 	 *          ... use someNum vs myArray[someIdx].value;
 	 */
 	 
-	memset(playbackBuffer, 0, size);
-
-	printf("inside fillplaybackbuffer funct \n");	
+	 memset(playbackBuffer, 0, size*sizeof(short));
+	//printf("inside fillplaybackbuffer funct \n");	
 	for(int i = 0; i <MAX_SOUND_BITES; i++){	
 		
 		pthread_mutex_lock(&audioMutex);
@@ -307,18 +306,20 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 
 		}
 		pthread_mutex_unlock(&audioMutex);
-		
+		//sleep(1);
 	 }
-	}
-	
+	}	
 }
 
 
 void* playbackThread(void* arg)
 {
+
+	//wavedata_t sound;
 	while (1) {
 		// Generate next block of audio
-		
+		//AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
+		//AudioMixer_queueSound(&sound);	
 		fillPlaybackBuffer(playbackBuffer, playbackBufferSize);
 
 		// Output the audio
@@ -339,7 +340,7 @@ void* playbackThread(void* arg)
 			printf("Short write (expected %li, wrote %li)\n",
 					playbackBufferSize, frames);
 		}
-		
+	
 	}
 	
 	printf("played the audio \n");

@@ -3,15 +3,15 @@
 
 # Edit this file to compile extra C files into their own programs.
 
-#TARGET= audioMixer
+TARGET= audioMixer
 #TARGET = wave_player
-TARGET = acc
+#TARGET = acc
 #TARGET = joy
 #TARGET = music
 
-#SOURCES= audioMixer_template.h audioMixer_template.c acc_sample.h acc_sample.c main.c 
+SOURCES= audioMixer_template.h audioMixer_template.c main.c
 #SOURCES = wave_player.h wave_player.c main.c
-SOURCES = acc_sample.h acc_sample.c wave_player.h wave_player.c main.c
+#SOURCES = acc_sample.h acc_sample.c wave_player.h wave_player.c main.c
 #SOURCES = joystick.h joystick.c main.c
 #SOURCES = wave_player.h wave_player.c website_control.c 
 

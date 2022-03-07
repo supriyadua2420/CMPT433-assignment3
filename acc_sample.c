@@ -1,8 +1,8 @@
 #include "acc_sample.h"
-#include "wave_player.h"
-//#include "audioMixer_template.h"
+//#include "wave_player.h"
+#include "audioMixer_template.h"
 
-wavedata_t sound;
+//wavedata_t sound;
 
 static pthread_t id;
 
@@ -62,7 +62,8 @@ int digit12(int index1, int index2){
 
 
 void readData(int file){
-
+	
+	wavedata_t sound;
 	// Read 7 bytes of data(0x00)
 	// staus, xAccl msb, xAccl lsb, yAccl msb, yAccl lsb, zAccl msb, zAccl lsb
 	char reg[1] = {0x00};
@@ -80,18 +81,21 @@ void readData(int file){
 		if(x > 200 || x < -200){
 			printf(" x threshold reached \n");
 			printf("Acceleration in X-Axis : %d \n", x);
+			//AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			//AudioMixer_queueSound(&sound);
 			play_once();
 		}
 		if(y > 200 || y < -200){
 			printf(" y threshold reached \n");
 			printf("Acceleration in Y-Axis : %d \n", y);
+			//AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			//AudioMixer_queueSound(&sound);
 			play_once();
 		}
 		if(z > 1200 || z < -200){
 			printf(" z threshold reached \n");
 			printf("Acceleration in Z-Axis : %d \n", z);
+			//AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			//AudioMixer_queueSound(&sound);
 			play_once();
 		}
@@ -130,11 +134,13 @@ void* routine(){
 
 void acc_init(void){
 	pthread_create(&id, NULL, &routine, NULL);
+	
 }
 
 void acc_cleanup(void){
 	//clean();
 	pthread_join(id, NULL);
+	
 }
  
 

@@ -66,7 +66,7 @@ void* joystick_routine(){
 //add the "in" direction
 //export all the gpio pins.
 	int i = 0;
-	while(i < 20){
+	while(1){
 	
 		int ans = readJoyInput();
 		sleep_function();
