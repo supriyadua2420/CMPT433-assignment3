@@ -19,11 +19,11 @@ int main(){
 	
 	
 	AudioMixer_init();
-	//acc_init();
+	acc_init();
 	joystick_init();
 
 	joystick_cleanup();
-	//acc_cleanup();
+	acc_cleanup();
 	AudioMixer_cleanup();
 	
 	

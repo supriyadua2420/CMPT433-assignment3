@@ -86,6 +86,20 @@ int readJoyInput(void){
 	return 0;
 }
 
+void increase_volume(){
+	int prev_volume = AudioMixer_getVolume();
+	int current_volume = prev_volume + 5;
+	AudioMixer_setVolume(current_volume);
+	printf("volume set to : %d \n", current_volume);
+}
+
+void decrease_volume(){
+	int prev_volume = AudioMixer_getVolume();
+	int current_volume = prev_volume - 5;
+	AudioMixer_setVolume(current_volume);
+	printf("volume set to : %d \n", current_volume);
+}
+
 void* joystick_routine(){
 
 //modify this routine to have the add queue, set volume and tempo functionality
@@ -110,13 +124,14 @@ void* joystick_routine(){
 		
 		//press up
 		else if(ans == 0){
-			printf("you pressed up \n");
+			//printf("you pressed up \n");
+			increase_volume();
 		}
 		
 		//press down
 		else if(ans == 1){
-			printf("you pressed down \n");
-			
+			//printf("you pressed down \n");
+			decrease_volume();
 		}	
 		i++;
 	}

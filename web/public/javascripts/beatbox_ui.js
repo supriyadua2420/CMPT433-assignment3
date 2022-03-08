@@ -22,12 +22,33 @@ $(document).ready(function() {
 		sendBeatsCommand("Rock #1");
 		$('#modeid').html("Rock #1");
 	});
-	
+
 	$('#modeRock2').click(function() {
 		// Log a message and call other function.
 		console.log("Clicked button!");
 		sendBeatsCommand("Rock #2");
 		$('#modeid').html("Rock #2");
+	});
+
+	$('#modeHiHat').click(function() {
+		// Log a message and call other function.
+		console.log("Clicked button!");
+		sendBeatsCommand("HiHat");
+		$('#modeid').html("Hi-Hat");
+	});
+
+	$('#modeSnare').click(function() {
+		// Log a message and call other function.
+		console.log("Clicked button!");
+		sendBeatsCommand("Snare");
+		$('#modeid').html("Snare");
+	});
+
+	$('#modeBase').click(function() {
+		// Log a message and call other function.
+		console.log("Clicked button!");
+		sendBeatsCommand("Base");
+		$('#modeid').html("Base");
 	});
 	
 	socket.on('commandReply', function(result) {

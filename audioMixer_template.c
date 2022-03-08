@@ -286,7 +286,7 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 	 */
 	 
 	 memset(playbackBuffer, 0, size*sizeof(short));
-	//printf("inside fillplaybackbuffer funct \n");	
+	
 	for(int i = 0; i <MAX_SOUND_BITES; i++){	
 		
 		pthread_mutex_lock(&audioMutex);
@@ -314,12 +314,8 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 
 void* playbackThread(void* arg)
 {
-
-	//wavedata_t sound;
 	while (1) {
-		// Generate next block of audio
-		//AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
-		//AudioMixer_queueSound(&sound);	
+			
 		fillPlaybackBuffer(playbackBuffer, playbackBufferSize);
 
 		// Output the audio

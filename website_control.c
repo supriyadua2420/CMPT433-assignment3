@@ -7,20 +7,29 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#include "wave_player.h"
+#include <pthread.h>
+#include "audioMixer_template.h" 
 
 #define PORT	 12345
 #define MAXLINE 1024
 
-// Driver code
-int main() {
+int sockfd;
+char buffer[MAXLINE];
+char *hello = "Hello from server";
+struct sockaddr_in servaddr, cliaddr;
 
-	config_wave();
-	int sockfd;
-	char buffer[MAXLINE];
-	char *hello = "Hello from server";
-	struct sockaddr_in servaddr, cliaddr;
+pthread_t network_thread;
+
+void checkResponse(char* response){
+	//int answer = 0;
+	if(strcmp(response, "None\n")){
+		printf("Yay this matched ! \n");
+	}
 	
+}
+
+void create_socket(){
+
 	// Creating socket file descriptor
 	if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
 		perror("socket creation failed");
@@ -43,6 +52,12 @@ int main() {
 		exit(EXIT_FAILURE);
 	}
 	
+
+}
+
+void* routine(){
+
+	create_socket();
 	int n;
 	unsigned int len;
 	
@@ -60,9 +75,27 @@ int main() {
 		MSG_CONFIRM, (const struct sockaddr *) &cliaddr,
 			len);
 			
-	play_once();
+	checkResponse(buffer);
 	printf("Hello message sent.\n");
 	}
+
+	return NULL;
+}
+
+void web_init(){
+	pthread_create(&network_thread, NULL, &routine, NULL);
+}
+
+void web_cleanup(){
+	pthread_join(network_thread, NULL);
+}
+
+// Driver code
+int main() {
+
+	web_init();
+	web_cleanup();
+	
 	return 0;
 }
 
