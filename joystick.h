@@ -11,6 +11,8 @@
 #define joy_up "/sys/class/gpio/gpio26/value"
 #define joy_down "/sys/class/gpio/gpio46/value"
 
+#define export_path "/sys/class/gpio/export"
+
 void joystick_init();
 void joystick_cleanup();
 

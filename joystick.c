@@ -1,8 +1,10 @@
 #include "joystick.h"
+#include "audioMixer_template.h"
 
 static pthread_t id;
 
 static char* joy_directions[] = {joy_up, joy_down, joy_lft, joy_right};
+
 
 const char* readValFile(char *fileName)
 {
@@ -22,6 +24,30 @@ const char* readValFile(char *fileName)
 	return buff;
 }
 
+void readWriteFile(char *fileName, int value){
+	FILE *file = fopen(fileName, "w");
+	
+	if (file == NULL) {
+		printf("ERROR OPENING %s.", fileName);
+		exit(1);
+	}	
+	
+	int charWritten = fprintf(file,"%d" ,value);
+	if (charWritten <= 0) {
+		printf("ERROR WRITING DATA");
+		exit(1);
+	}
+	
+	fclose(file);
+	
+}
+
+void export_all(){
+	readWriteFile(export_path, 65);
+	readWriteFile(export_path, 47);
+	readWriteFile(export_path, 26);
+	readWriteFile(export_path, 46);
+}
 
 int isPressed(const char* direction){
 	int answer = 0;
@@ -65,6 +91,7 @@ void* joystick_routine(){
 //modify this routine to have the add queue, set volume and tempo functionality
 //add the "in" direction
 //export all the gpio pins.
+	export_all();
 	int i = 0;
 	while(1){
 	

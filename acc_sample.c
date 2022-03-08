@@ -84,7 +84,7 @@ void readData(int file){
 			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
-			//play_once();
+			
 		}
 		if(y > 200 || y < -200){
 			printf(" y threshold reached \n");
@@ -92,7 +92,7 @@ void readData(int file){
 			AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
-			//play_once();
+			
 		}
 		if(z > 1200 || z < -200){
 			printf(" z threshold reached \n");
@@ -100,7 +100,7 @@ void readData(int file){
 			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
-			//play_once();
+			
 		}
 	}
 }
@@ -109,9 +109,6 @@ void readData(int file){
 
 void* routine(){
 
-
-//modify this routine to have the queue functionality
-//set thresholds
 	int file = initI2cBus();
 	setRange(file);
 	
