@@ -11,18 +11,18 @@ int main(){
 
 	
 	AudioMixer_init();
-
-	wavedata_t sound;
+	acc_init();
+	/*wavedata_t sound;
 	AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
-	//
+	
 	int i =0;
 	while(i<4){
 	AudioMixer_queueSound(&sound);
 	sleep(3);
 	i++;
 	}
-	AudioMixer_freeWaveFileData(&sound);
-
+	AudioMixer_freeWaveFileData(&sound);*/
+	acc_cleanup();
 	AudioMixer_cleanup();
 	
 	

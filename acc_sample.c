@@ -2,7 +2,7 @@
 //#include "wave_player.h"
 #include "audioMixer_template.h"
 
-//wavedata_t sound;
+wavedata_t sound;
 
 static pthread_t id;
 
@@ -50,7 +50,7 @@ void setRange(int file){
 }
 
 int digit12(int index1, int index2){
-	//int xAccl = (data[1] << 8) | (data[2]);
+	
 	int Accl = ((data[index1] * 256) + data[index2]) / 16;
 	if(Accl > 2047)
 	{
@@ -81,23 +81,26 @@ void readData(int file){
 		if(x > 200 || x < -200){
 			printf(" x threshold reached \n");
 			printf("Acceleration in X-Axis : %d \n", x);
-			//AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
-			//AudioMixer_queueSound(&sound);
-			play_once();
+			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
+			AudioMixer_queueSound(&sound);
+			sleep(1);
+			//play_once();
 		}
 		if(y > 200 || y < -200){
 			printf(" y threshold reached \n");
 			printf("Acceleration in Y-Axis : %d \n", y);
-			//AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
-			//AudioMixer_queueSound(&sound);
-			play_once();
+			AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
+			AudioMixer_queueSound(&sound);
+			sleep(1);
+			//play_once();
 		}
 		if(z > 1200 || z < -200){
 			printf(" z threshold reached \n");
 			printf("Acceleration in Z-Axis : %d \n", z);
-			//AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
-			//AudioMixer_queueSound(&sound);
-			play_once();
+			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
+			AudioMixer_queueSound(&sound);
+			sleep(1);
+			//play_once();
 		}
 	}
 }
@@ -112,20 +115,14 @@ void* routine(){
 	int file = initI2cBus();
 	setRange(file);
 	
-	
-	config_wave(); //del this once queue sound works
-	//int i =0;
 	while(1){
 	 standbyMode(file);
 	 activeMode(file);
-	 //AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
 	 sleep(0.5);
 	 
 	 readData(file);
 	 sleep(2);
 	 
-	
-	 //i++;
 	}
 	
 	return NULL;
@@ -138,7 +135,7 @@ void acc_init(void){
 }
 
 void acc_cleanup(void){
-	//clean();
+	AudioMixer_freeWaveFileData(&sound);
 	pthread_join(id, NULL);
 	
 }
