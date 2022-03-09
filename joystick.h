@@ -10,6 +10,7 @@
 #define joy_right "/sys/class/gpio/gpio47/value" 
 #define joy_up "/sys/class/gpio/gpio26/value"
 #define joy_down "/sys/class/gpio/gpio46/value"
+#define joy_in "/sys/class/gpio/gpio27/value"
 
 #define export_path "/sys/class/gpio/export"
 

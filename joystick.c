@@ -3,7 +3,7 @@
 
 static pthread_t id;
 
-static char* joy_directions[] = {joy_up, joy_down, joy_lft, joy_right};
+static char* joy_directions[] = {joy_up, joy_down, joy_lft, joy_right, joy_in};
 
 
 const char* readValFile(char *fileName)
@@ -47,6 +47,7 @@ void export_all(){
 	readWriteFile(export_path, 47);
 	readWriteFile(export_path, 26);
 	readWriteFile(export_path, 46);
+	readWriteFile(export_path, 27);
 }
 
 int isPressed(const char* direction){
@@ -70,9 +71,9 @@ void sleep_function(long milisec){
 
 int readJoyInput(void){
 
-	const char* direction_vals[4];
+	const char* direction_vals[5];
 	while(1){
-		for(int j = 0; j < 4; j++){
+		for(int j = 0; j < 5; j++){
 			direction_vals[j] = readValFile(joy_directions[j]);
 			if(isPressed(direction_vals[j]) == 0){
 				return j;
@@ -146,6 +147,10 @@ void* joystick_routine(){
 			//printf("you pressed down \n");
 			decrease_volume();
 		}	
+		else if(ans == 4){
+			printf("you pressed in \n");
+		}
+
 		i++;
 	}
 	return NULL;

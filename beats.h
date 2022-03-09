@@ -3,5 +3,7 @@
 
 
 void beats_init();
+void beats_cleanup();
+
 void Rock1();
 void Rock2();

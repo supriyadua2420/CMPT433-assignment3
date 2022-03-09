@@ -15,13 +15,10 @@ int main(){
 	joystick_init();
 
 	beats_init();
-	while(1){
-		Rock1();	
-		sleep(2);
-	}
 	//web_init();
 
 	//web_cleanup();
+	beats_cleanup();
 	joystick_cleanup();
 	acc_cleanup();
 	AudioMixer_cleanup();
