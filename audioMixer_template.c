@@ -303,6 +303,10 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 		  offset++;
 		 }
 		 soundBites[i].location = offset;
+		 if(soundBites[i].location >= soundBites[i].pSound->numSamples)
+		 {
+			soundBites[i].pSound = NULL;
+		 }
 
 		}
 		pthread_mutex_unlock(&audioMutex);
