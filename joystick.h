@@ -16,4 +16,6 @@
 void joystick_init();
 void joystick_cleanup();
 
+void sleep_function(long milisec);
+
 void* joystick_routine();

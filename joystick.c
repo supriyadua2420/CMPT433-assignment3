@@ -57,13 +57,12 @@ int isPressed(const char* direction){
 }
 
 
-void sleep_function(void){
+void sleep_function(long milisec){
 	
 	for (int i = 0; i < 1; i++) {
-		long seconds = 1;
-		//long nanoseconds = 500000000;
-		long nanoseconds = 100;
-		struct timespec reqDelay = {seconds, nanoseconds};
+		long sec = 0;
+		milisec = 100;
+		struct timespec reqDelay = {sec, milisec};
 		nanosleep(&reqDelay, (struct timespec *) NULL);
 	}
 
@@ -116,15 +115,14 @@ void decrease_tempo(){
 
 void* joystick_routine(){
 
-//modify this routine to have the add queue, set volume and tempo functionality
-//add the "in" direction
-//export all the gpio pins.
+//TODO : add the "in" direction and its functionality
+
 	export_all();
 	int i = 0;
 	while(1){
 	
 		int ans = readJoyInput();
-		sleep_function();
+		sleep(1);
 		
 		//press left		
 		if(ans == 2){
