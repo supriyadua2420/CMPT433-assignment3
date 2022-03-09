@@ -8,7 +8,6 @@ $(document).ready(function() {
 	//var name = $('#status').val();
 	$('#status').html("Hello changing the message!");	
 	
-	
 	$('#modeNone').click(function() {
 		// Log a message and call other function.
 		console.log("Clicked button!");
@@ -50,6 +49,8 @@ $(document).ready(function() {
 		sendBeatsCommand("Base");
 		$('#modeid').html("Base");
 	});
+
+	
 	
 	socket.on('commandReply', function(result) {
 		console.log("Got result!");

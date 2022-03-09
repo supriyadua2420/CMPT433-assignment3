@@ -100,6 +100,20 @@ void decrease_volume(){
 	printf("volume set to : %d \n", current_volume);
 }
 
+void increase_tempo(){
+	int prev_BPM = AudioMixer_getBPM();
+	int current_BPM = prev_BPM + 5;
+	AudioMixer_setBPM(current_BPM);
+	printf("BPM set to : %d \n", current_BPM);
+}
+
+void decrease_tempo(){
+	int prev_BPM = AudioMixer_getBPM();
+	int current_BPM = prev_BPM - 5;
+	AudioMixer_setBPM(current_BPM);
+	printf("BPM set to : %d \n", current_BPM);
+}
+
 void* joystick_routine(){
 
 //modify this routine to have the add queue, set volume and tempo functionality
@@ -114,12 +128,13 @@ void* joystick_routine(){
 		
 		//press left		
 		if(ans == 2){
-			printf("you pressed left \n");
-		 	
+			//printf("you pressed left \n");
+			decrease_tempo();
 		}
 		//press right
 		else if(ans== 3){
-			printf("you pressed right \n");
+			//printf("you pressed right \n");
+			increase_tempo();
 		}
 		
 		//press up

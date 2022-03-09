@@ -10,36 +10,36 @@ pthread_t network_thread;
 
 wavedata_t sound;
 
+void play_sound(char* sound_name){
+	AudioMixer_readWaveFileIntoMemory(sound_name, &sound);
+	AudioMixer_queueSound(&sound);
+	sleep(1);
+}
+
 void checkResponse(char* response){
 	
 	if(strcmp(response, "None\n")){
 		//do nothing.
 	}
 	if(strcmp(response, "Rock #1\n")){
-	
-		//printf("reached here \n");
+		//play beat 1;
 	}
 	if(strcmp(response, "Rock #2\n")){
-		//queue the beat when ready.
-		//printf("Yay this matched ! \n");
+		//play beat 2;
 	}
 	if(strcmp(response, "HiHat\n")){
-		AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
-		AudioMixer_queueSound(&sound);
-		sleep(2);
+		play_sound(HI_HAT);	
 	}
 	if(strcmp(response, "Snare\n")){
-		
-		AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
-		AudioMixer_queueSound(&sound);
-		sleep(2);
+		play_sound(SNARE);
 	}
 	if(strcmp(response, "Base\n")){
-		
-		AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
-		AudioMixer_queueSound(&sound);
-		sleep(2);
+		play_sound(BASE_DRUM);
 	}
+	/*if(strcmp(response, "volumeup\n")){
+		//raise volume
+		printf("volume up\n");
+	}*/
 }
 
 void create_socket(){
@@ -65,7 +65,6 @@ void create_socket(){
 		perror("bind failed");
 		exit(EXIT_FAILURE);
 	}
-	
 
 }
 

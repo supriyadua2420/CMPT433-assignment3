@@ -11,6 +11,9 @@
 static snd_pcm_t *handle;
 
 #define DEFAULT_VOLUME 80
+#define DEFAULT_BPM 120
+#define MAX_BPM 300
+#define MIN_BPM 40
 
 #define SAMPLE_RATE 44100
 #define NUM_CHANNELS 1
@@ -43,17 +46,19 @@ static pthread_t playbackThreadId;
 static pthread_mutex_t audioMutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int volume = 0;
+static int bpm = 0;
 
 void AudioMixer_init(void)
 {
 	AudioMixer_setVolume(DEFAULT_VOLUME);
+	AudioMixer_setBPM(DEFAULT_BPM);
 
 	// Initialize the currently active sound-bites being played
 	// REVISIT:- Implement this. Hint: set the pSound pointer to NULL for each
 	//     sound bite.
 	for(int i =0; i <MAX_SOUND_BITES; i++){
 		soundBites[i].pSound = NULL;
-		//soundBites[i].location = i;
+
 	}
 
 	// Open the PCM output
@@ -168,9 +173,8 @@ void AudioMixer_queueSound(wavedata_t *pSound_n)
 		   pthread_mutex_unlock(&audioMutex);
 		    break;
 		}
-	 //printf("no new slots found.\n");
 	}
-	//printf("no new slots found.\n");
+
 }
 
 
@@ -195,6 +199,20 @@ void AudioMixer_cleanup(void)
 
 	printf("Done stopping audio...\n");
 	fflush(stdout);
+}
+
+int AudioMixer_getBPM(){
+	return bpm;
+}
+
+void AudioMixer_setBPM(int newBPM)
+{
+	//check if within parameters
+	if(newBPM < MIN_BPM || newBPM > MAX_BPM)
+	{
+		return;
+	}
+	bpm = newBPM;
 }
 
 
@@ -289,8 +307,8 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 	
 	for(int i = 0; i <MAX_SOUND_BITES; i++){	
 		
-		pthread_mutex_lock(&audioMutex);
-		{
+	  pthread_mutex_lock(&audioMutex);
+	  {
 		 if(soundBites[i].pSound != NULL){
 		
 		 int offset = soundBites[i].location;
@@ -309,9 +327,10 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 		 }
 
 		}
-		pthread_mutex_unlock(&audioMutex);
-		//sleep(1);
-	 }
+	  }
+     pthread_mutex_unlock(&audioMutex);
+
+	
 	}	
 }
 
