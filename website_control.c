@@ -1,17 +1,5 @@
-// Server side implementation of UDP client-server model
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <pthread.h>
-#include "audioMixer_template.h" 
+#include "website_control.h"
 
-#define PORT	 12345
-#define MAXLINE 1024
 
 int sockfd;
 char buffer[MAXLINE];
@@ -20,12 +8,38 @@ struct sockaddr_in servaddr, cliaddr;
 
 pthread_t network_thread;
 
+wavedata_t sound;
+
 void checkResponse(char* response){
-	//int answer = 0;
-	if(strcmp(response, "None\n")){
-		printf("Yay this matched ! \n");
-	}
 	
+	if(strcmp(response, "None\n")){
+		//do nothing.
+	}
+	if(strcmp(response, "Rock #1\n")){
+	
+		//printf("reached here \n");
+	}
+	if(strcmp(response, "Rock #2\n")){
+		//queue the beat when ready.
+		//printf("Yay this matched ! \n");
+	}
+	if(strcmp(response, "HiHat\n")){
+		AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(2);
+	}
+	if(strcmp(response, "Snare\n")){
+		
+		AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(2);
+	}
+	if(strcmp(response, "Base\n")){
+		
+		AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(2);
+	}
 }
 
 void create_socket(){
@@ -76,7 +90,7 @@ void* routine(){
 			len);
 			
 	checkResponse(buffer);
-	printf("Hello message sent.\n");
+	//printf("Hello message sent.\n");
 	}
 
 	return NULL;
@@ -87,15 +101,8 @@ void web_init(){
 }
 
 void web_cleanup(){
+	AudioMixer_freeWaveFileData(&sound);
 	pthread_join(network_thread, NULL);
 }
 
-// Driver code
-int main() {
-
-	web_init();
-	web_cleanup();
-	
-	return 0;
-}
 
