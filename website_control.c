@@ -33,7 +33,8 @@ void checkResponse(char* response){
 	if(strcmp(response, "Snare\n")){
 		play_sound(SNARE);
 	}
-	if(strcmp(response, "Base\n")){
+	if(strcmp(response, "Base\n") == 0){
+		printf("this is the base sound \n");
 		play_sound(BASE_DRUM);
 	}
 	/*if(strcmp(response, "volumeup\n")){

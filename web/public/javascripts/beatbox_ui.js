@@ -50,13 +50,39 @@ $(document).ready(function() {
 		$('#modeid').html("Base");
 	});
 
+	$('#volumeUp').click(function() {
+		// Log a message and call other function.
+		console.log("Clicked button!");
+		sendBeatsCommand("volumeUp");
+		$('#volumeid').html("this");
+	});
+
+	$('#volumeDown').click(function() {
+		// Log a message and call other function.
+		console.log("Clicked button!");
+		sendBeatsCommand("volumeDown");
+		//$('#modeid').html("Base");
+	});
+	$('#tempoUp').click(function() {
+		// Log a message and call other function.
+		console.log("Clicked button!");
+		sendBeatsCommand("tempoUp");
+		//$('#modeid').html("Base");
+	});
+	$('#tempoDown').click(function() {
+		// Log a message and call other function.
+		console.log("Clicked button!");
+		sendBeatsCommand("tempoDown");
+		//$('#modeid').html("Base");
+	});
+
 	
 	
 	socket.on('commandReply', function(result) {
 		console.log("Got result!");
-		//var newDiv = $('<div></div>').text(result);
-		//$('#messages').append(newDiv);
-		//$('#messages').scrollTop($('#messages').prop('scrollHeight'));
+		var newDiv = $('<div></div>').text(result);
+		$('#messages').append(newDiv);
+		$('#messages').scrollTop($('#messages').prop('scrollHeight'));
 	});
 	
 });

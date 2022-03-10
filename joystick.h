@@ -17,6 +17,11 @@
 void joystick_init();
 void joystick_cleanup();
 
+void increase_volume();
+void decrease_volume();
+void increase_tempo();
+void decrease_tempo();
+
 void sleep_function(long milisec);
 
 void* joystick_routine();

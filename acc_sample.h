@@ -10,4 +10,4 @@
 void acc_init();
 void acc_cleanup();
 
-void* routine();
+void* acc_routine();

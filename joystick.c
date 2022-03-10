@@ -1,5 +1,6 @@
 #include "joystick.h"
 #include "audioMixer_template.h"
+#include "beats.h"
 
 static pthread_t id;
 
@@ -116,7 +117,6 @@ void decrease_tempo(){
 
 void* joystick_routine(){
 
-//TODO : add the "in" direction and its functionality
 
 	export_all();
 	int i = 0;
@@ -149,6 +149,15 @@ void* joystick_routine(){
 		}	
 		else if(ans == 4){
 			printf("you pressed in \n");
+			int beat = getBeat();
+			if(beat == 2){
+				beat = 0;
+			}
+			else{
+				beat +=1;
+			}
+			setBeat(beat);
+
 		}
 
 		i++;

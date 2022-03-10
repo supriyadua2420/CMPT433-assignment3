@@ -2,7 +2,7 @@
 #include "acc_sample.h"
 #include "joystick.h"
 #include "beats.h"
-//#include "website_control.h"
+#include "website_control.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -15,9 +15,15 @@ int main(){
 	joystick_init();
 
 	beats_init();
-	//web_init();
+	web_init();
 
-	//web_cleanup();
+	//int i = 0;
+	//while(i < 10){
+	//	Rock1();
+	//	i++;
+	//}
+
+	web_cleanup();
 	beats_cleanup();
 	joystick_cleanup();
 	acc_cleanup();

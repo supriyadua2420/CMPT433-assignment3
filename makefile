@@ -12,7 +12,7 @@ TARGET= audioMixer
 #SOURCES= audioMixer_template.h audioMixer_template.c beats.h beats.c joystick.h joystick.c main.c
 #SOURCES = wave_player.h wave_player.c main.c
 #SOURCES = acc_sample.h acc_sample.c wave_player.h wave_player.c main.c
-SOURCES = joystick.h joystick.c  audioMixer_template.h audioMixer_template.c acc_sample.h acc_sample.c beats.h beats.c main.c
+SOURCES = joystick.h joystick.c  audioMixer_template.h audioMixer_template.c acc_sample.h acc_sample.c beats.h beats.c website_control.h website_control.c main.c
 #SOURCES = website_control.h website_control.c audioMixer_template.h audioMixer_template.c main.c
 
 PUBDIR = $(HOME)/cmpt433/public

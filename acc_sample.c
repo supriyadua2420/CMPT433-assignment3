@@ -107,7 +107,7 @@ void readData(int file){
 
 
 
-void* routine(){
+void* acc_routine(){
 
 	int file = initI2cBus();
 	setRange(file);
@@ -127,7 +127,7 @@ void* routine(){
 }
 
 void acc_init(void){
-	pthread_create(&id, NULL, &routine, NULL);
+	pthread_create(&id, NULL, &acc_routine, NULL);
 	
 }
 
