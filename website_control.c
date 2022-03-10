@@ -1,5 +1,6 @@
 #include "website_control.h"
 #include "joystick.h"
+#include "beats.h"
 
 
 int sockfd;
@@ -11,47 +12,6 @@ pthread_t network_thread;
 
 wavedata_t sound;
 
-void play_sound(char* sound_name){
-	AudioMixer_readWaveFileIntoMemory(sound_name, &sound);
-	AudioMixer_queueSound(&sound);
-	sleep(1);
-}
-
-/*void checkResponse(char* response){
-	
-	if(strcmp(response, "None\n")){
-		//do nothing.
-	}
-	if(strcmp(response, "Rock #1\n")){
-		//play beat 1;
-	}
-	if(strcmp(response, "Rock #2\n")){
-		//play beat 2;
-	}
-	if(strcmp(response, "HiHat")){
-		//play_sound(HI_HAT);	
-		AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
-		AudioMixer_queueSound(&sound);
-		sleep(1);
-	}
-	if(strcmp(response, "Snare") == 0){
-		//play_sound(SNARE);
-		AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
-		AudioMixer_queueSound(&sound);
-		sleep(1);
-	}
-	if(strcmp(response, "Base") == 0){
-		printf("this is the base sound \n");
-		//play_sound(BASE_DRUM);
-		AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
-		AudioMixer_queueSound(&sound);
-		sleep(1);
-	}
-	if(strcmp(response, "volumeup\n")){
-		//raise volume
-		printf("volume up\n");
-	}
-}*/
 
 void create_socket(){
 
@@ -131,13 +91,19 @@ void* routine(){
 		printf("tempo down\n");
 		decrease_tempo();
 	}
+	if(strcmp(buffer, "None")){
+		printf("thi is none mode\n");
+		setBeat(0);
+	}
+	if(strcmp(buffer, "Rock #1\n")){
+		printf("this is Rock 1 mode\n ");
+		setBeat(1);
+	}
+	if(strcmp(buffer, "Rock #2\n")){
+		printf("this is Rock #2 mode\n");
+		setBeat(2);
 
-	/*printf("buffer : %s \n", buffer);
-	printf("buffer size: %d \n", strlen(buffer));
-	printf("base size: %d \n", strlen("Base));
-	checkResponse(buffer);*/
-	
-	//printf("Hello message sent.\n");
+	}
 	}
 
 	return NULL;
