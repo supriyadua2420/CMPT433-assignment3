@@ -1,4 +1,5 @@
 #include "website_control.h"
+#include "joystick.h"
 
 
 int sockfd;
@@ -16,7 +17,7 @@ void play_sound(char* sound_name){
 	sleep(1);
 }
 
-void checkResponse(char* response){
+/*void checkResponse(char* response){
 	
 	if(strcmp(response, "None\n")){
 		//do nothing.
@@ -27,21 +28,30 @@ void checkResponse(char* response){
 	if(strcmp(response, "Rock #2\n")){
 		//play beat 2;
 	}
-	if(strcmp(response, "HiHat\n")){
-		play_sound(HI_HAT);	
+	if(strcmp(response, "HiHat")){
+		//play_sound(HI_HAT);	
+		AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(1);
 	}
-	if(strcmp(response, "Snare\n")){
-		play_sound(SNARE);
+	if(strcmp(response, "Snare") == 0){
+		//play_sound(SNARE);
+		AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(1);
 	}
-	if(strcmp(response, "Base\n") == 0){
+	if(strcmp(response, "Base") == 0){
 		printf("this is the base sound \n");
-		play_sound(BASE_DRUM);
+		//play_sound(BASE_DRUM);
+		AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(1);
 	}
-	/*if(strcmp(response, "volumeup\n")){
+	if(strcmp(response, "volumeup\n")){
 		//raise volume
 		printf("volume up\n");
-	}*/
-}
+	}
+}*/
 
 void create_socket(){
 
@@ -88,8 +98,45 @@ void* routine(){
 	sendto(sockfd, (const char *)hello, strlen(hello),
 		MSG_CONFIRM, (const struct sockaddr *) &cliaddr,
 			len);
-			
-	checkResponse(buffer);
+	
+	if(strcmp(buffer, "HiHat") == 0){	
+		AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(1);
+	}
+	if(strcmp(buffer, "Snare") == 0){
+		AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(1);
+	}
+	if(strcmp(buffer, "Base") == 0){
+		printf("this is the base sound \n");
+		AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
+		AudioMixer_queueSound(&sound);
+		sleep(1);
+	}
+	if(strcmp(buffer, "volumeUp")==0){
+		printf("volume up\n");
+		increase_volume();
+	}
+	if(strcmp(buffer, "volumeDown")==0){
+		printf("volume down\n");
+		decrease_volume();
+	}
+	if(strcmp(buffer, "tempoUp")==0){
+		printf("tempo up\n");
+		increase_tempo();
+	}
+	if(strcmp(buffer, "tempoDown")==0){
+		printf("tempo down\n");
+		decrease_tempo();
+	}
+
+	/*printf("buffer : %s \n", buffer);
+	printf("buffer size: %d \n", strlen(buffer));
+	printf("base size: %d \n", strlen("Base));
+	checkResponse(buffer);*/
+	
 	//printf("Hello message sent.\n");
 	}
 
