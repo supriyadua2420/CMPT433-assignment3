@@ -4,46 +4,7 @@
 var socket = io.connect();
 // Run when webpage fully loaded
 $(document).ready(function() {
-	
-	
-	// Send message to request some (one-shot) updates:
-	sendRequest('cpuinfo');
-	sendRequest('version');
-	sendRequest('cmdline');
 
-	// Setup a repeating function (every 1s)
-	window.setInterval(function() {sendRequest('uptime')}, 1000);
-
-
-	// Handle data coming back from the server
-	socket.on('fileContents', function(result) {
-		var fileName = result.fileName;
-		var contents = result.contents;
-//		console.log("fileContenst callback: fileName " + fileName 
-//				+ ", contents: " + contents);
-		
-		var domObj;
-		switch(fileName) {
-		case 'version':
-			domObj = $('#versionId');
-			break;
-		case 'uptime':
-			domObj = $('#uptimeId');
-			break;
-		case 'cpuinfo':
-			domObj = $('#cpuinfoId');
-			break;
-		case 'cmdline':
-			domObj = $('#cmdlineId');
-			break;
-		default:
-			console.log("Unknown DOM object: " + fileName);
-			return;
-		}
-		// Make linefeeds into <br> tag.
-		contents = replaceAll(contents, "\n", "<br/>");
-		domObj.html(contents);
-	});
 
 	//var name = $('#status').val();
 	$('#status').html("Hello changing the message!");	
@@ -58,15 +19,15 @@ $(document).ready(function() {
 	$('#modeRock1').click(function() {
 		// Log a message and call other function.
 		console.log("Clicked button!");
-		sendBeatsCommand("Rock #1");
-		$('#modeid').html("Rock #1");
+		sendBeatsCommand("Rock1");
+		$('#modeid').html("Rock1");
 	});
 
 	$('#modeRock2').click(function() {
 		// Log a message and call other function.
 		console.log("Clicked button!");
-		sendBeatsCommand("Rock #2");
-		$('#modeid').html("Rock #2");
+		sendBeatsCommand("Rock2");
+		$('#modeid').html("Rock2");
 	});
 
 	$('#modeHiHat').click(function() {

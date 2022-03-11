@@ -94,15 +94,15 @@ void* routine(){
 		printf("tempo down\n");
 		decrease_tempo();
 	}
-	else if(strcmp(buffer, "None")){
-		printf("thi is none mode\n");
+	else if(strcmp(buffer, "None")==0){
+		printf("this is none mode\n");
 		setBeat(0);
 	}
-	else if(strcmp(buffer, "Rock #1\n")){
+	else if(strcmp(buffer, "Rock1")==0){
 		printf("this is Rock 1 mode\n ");
 		setBeat(1);
 	}
-	else if(strcmp(buffer, "Rock #2\n")){
+	else if(strcmp(buffer, "Rock2")==0){
 		printf("this is Rock #2 mode\n");
 		setBeat(2);
 
