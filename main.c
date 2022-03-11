@@ -13,7 +13,6 @@ int main(){
 	AudioMixer_init();
 	acc_init();
 	joystick_init();
-
 	beats_init();
 	web_init();
 
