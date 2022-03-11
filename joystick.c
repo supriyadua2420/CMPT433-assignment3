@@ -151,7 +151,7 @@ void* joystick_routine(){
 			decrease_volume();
 		}	
 		else if(ans == 4){
-			printf("you pressed in \n");
+			printf("you pressed in : Changing beat\n");
 			int beat = getBeat();
 			if(beat == 2){
 				beat = 0;

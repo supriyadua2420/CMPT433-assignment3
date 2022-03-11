@@ -78,8 +78,8 @@ void readData(int file){
 		
 		
 		if(x > 200 || x < -200){
-			printf(" x threshold reached \n");
-			printf("Acceleration in X-Axis : %d \n", x);
+			printf("x threshold reached : now playing Snare \n");
+			//printf("Acceleration in X-Axis : %d \n", x);
 			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
@@ -87,8 +87,8 @@ void readData(int file){
 			
 		}
 		if(y > 200 || y < -200){
-			printf(" y threshold reached \n");
-			printf("Acceleration in Y-Axis : %d \n", y);
+			printf("y threshold reached : now playing Hi-Hat \n");
+			//printf("Acceleration in Y-Axis : %d \n", y);
 			AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
@@ -96,9 +96,9 @@ void readData(int file){
 			
 		}
 		if(z > 1200 || z < -200){
-			printf(" z threshold reached \n");
-			printf("Acceleration in Z-Axis : %d \n", z);
-			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
+			printf("z threshold reached : now playing BASE_DRUM \n");
+			//printf("Acceleration in Z-Axis : %d \n", z);
+			AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
 			AudioMixer_freeWaveFileData(&sound);

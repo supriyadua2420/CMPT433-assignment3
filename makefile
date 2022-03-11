@@ -4,16 +4,8 @@
 # Edit this file to compile extra C files into their own programs.
 
 TARGET= audioMixer
-#TARGET = wave_player
-#TARGET = acc
-#TARGET = joy
-#TARGET = music
 
-#SOURCES= audioMixer_template.h audioMixer_template.c acc_sample.h acc_sample.c main.c
-#SOURCES = wave_player.h wave_player.c main.c
-#SOURCES = acc_sample.h acc_sample.c wave_player.h wave_player.c main.c
 SOURCES = joystick.h joystick.c  audioMixer_template.h audioMixer_template.c accelerometer.h accelerometer.c beats.h beats.c webpage.h webpage.c main.c
-#SOURCES = website_control.h website_control.c audioMixer_template.h audioMixer_template.c main.c
 
 PUBDIR = $(HOME)/cmpt433/public
 OUTDIR = $(PUBDIR)

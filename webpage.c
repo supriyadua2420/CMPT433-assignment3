@@ -54,7 +54,7 @@ void* routine(){
 				&len);
 				
 	buffer[n] = '\0';
-	printf("Client : %s\n", buffer);
+	printf("Instruction received : %s\n", buffer);
 	sendto(sockfd, (const char *)hello, strlen(hello),
 		MSG_CONFIRM, (const struct sockaddr *) &cliaddr,
 			len);
@@ -72,38 +72,37 @@ void* routine(){
 		AudioMixer_freeWaveFileData(&sound);
 	}
 	else if(strcmp(buffer, "Base") == 0){
-		printf("this is the base sound \n");
 		AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
 		AudioMixer_queueSound(&sound);
 		sleep(1);
 		AudioMixer_freeWaveFileData(&sound);
 	}
 	else if(strcmp(buffer, "volumeUp")==0){
-		printf("volume up\n");
+		//printf("volume up\n");
 		increase_volume();
 	}
 	else if(strcmp(buffer, "volumeDown")==0){
-		printf("volume down\n");
+		//printf("volume down\n");
 		decrease_volume();
 	}
 	else if(strcmp(buffer, "tempoUp")==0){
-		printf("tempo up\n");
+		//printf("tempo up\n");
 		increase_tempo();
 	}
 	else if(strcmp(buffer, "tempoDown")==0){
-		printf("tempo down\n");
+		//printf("tempo down\n");
 		decrease_tempo();
 	}
 	else if(strcmp(buffer, "None")==0){
-		printf("this is none mode\n");
+		//printf("this is none mode\n");
 		setBeat(0);
 	}
 	else if(strcmp(buffer, "Rock1")==0){
-		printf("this is Rock 1 mode\n ");
+		//printf("this is Rock 1 mode\n ");
 		setBeat(1);
 	}
 	else if(strcmp(buffer, "Rock2")==0){
-		printf("this is Rock #2 mode\n");
+		//printf("this is Rock #2 mode\n");
 		setBeat(2);
 
 	}
