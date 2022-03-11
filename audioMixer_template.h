@@ -10,10 +10,10 @@ typedef struct {
 
 #define AUDIOMIXER_MAX_VOLUME 100
 
-#define BASE_DRUM "wave-files/100051__menegass__gui-drum-bd-hard.wav"
-#define HI_HAT "wave-files/100053__menegass__gui-drum-cc.wav"
-#define SNARE "wave-files/100059__menegass__gui-drum-snare-soft.wav"
-#define DRUM_CYN "wave-files/100056__menegass__gui-drum-cyn-hard.wav"
+#define BASE_DRUM "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
+#define HI_HAT "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
+#define SNARE "beatbox-wav-files/100059__menegass__gui-drum-snare-soft.wav"
+#define DRUM_CYN "beatbox-wav-files/100056__menegass__gui-drum-cyn-hard.wav"
 
 // init() must be called before any other functions,
 // cleanup() must be called last to stop playback threads and free memory.

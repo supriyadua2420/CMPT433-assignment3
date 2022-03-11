@@ -3,11 +3,11 @@
 
 # Edit this file to compile extra C files into their own programs.
 
-TARGET= audioMixer
+TARGET= beatbox
 
 SOURCES = joystick.h joystick.c  audioMixer_template.h audioMixer_template.c accelerometer.h accelerometer.c beats.h beats.c webpage.h webpage.c main.c
 
-PUBDIR = $(HOME)/cmpt433/public
+PUBDIR = $(HOME)/cmpt433/public/myApps
 OUTDIR = $(PUBDIR)
 CROSS_TOOL = arm-linux-gnueabihf-
 CC_CPP = $(CROSS_TOOL)g++
@@ -36,8 +36,8 @@ all: wav
 
 # Copy wave files to the shared folder
 wav:
-	mkdir -p $(PUBDIR)/wave-files/
-	cp wave-files/* $(PUBDIR)/wave-files/ 
+	mkdir -p $(PUBDIR)/beatbox-wav-files/
+	cp beatbox-wav-files/* $(PUBDIR)/beatbox-wav-files/
 
 clean:
 	rm -f $(OUTDIR)/$(TARGET)
