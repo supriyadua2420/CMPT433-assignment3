@@ -65,44 +65,44 @@ void* routine(){
 		sleep(1);
 		AudioMixer_freeWaveFileData(&sound);
 	}
-	if(strcmp(buffer, "Snare") == 0){
+	else if(strcmp(buffer, "Snare") == 0){
 		AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 		AudioMixer_queueSound(&sound);
 		sleep(1);
 		AudioMixer_freeWaveFileData(&sound);
 	}
-	if(strcmp(buffer, "Base") == 0){
+	else if(strcmp(buffer, "Base") == 0){
 		printf("this is the base sound \n");
 		AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
 		AudioMixer_queueSound(&sound);
 		sleep(1);
 		AudioMixer_freeWaveFileData(&sound);
 	}
-	if(strcmp(buffer, "volumeUp")==0){
+	else if(strcmp(buffer, "volumeUp")==0){
 		printf("volume up\n");
 		increase_volume();
 	}
-	if(strcmp(buffer, "volumeDown")==0){
+	else if(strcmp(buffer, "volumeDown")==0){
 		printf("volume down\n");
 		decrease_volume();
 	}
-	if(strcmp(buffer, "tempoUp")==0){
+	else if(strcmp(buffer, "tempoUp")==0){
 		printf("tempo up\n");
 		increase_tempo();
 	}
-	if(strcmp(buffer, "tempoDown")==0){
+	else if(strcmp(buffer, "tempoDown")==0){
 		printf("tempo down\n");
 		decrease_tempo();
 	}
-	if(strcmp(buffer, "None")){
+	else if(strcmp(buffer, "None")){
 		printf("thi is none mode\n");
 		setBeat(0);
 	}
-	if(strcmp(buffer, "Rock #1\n")){
+	else if(strcmp(buffer, "Rock #1\n")){
 		printf("this is Rock 1 mode\n ");
 		setBeat(1);
 	}
-	if(strcmp(buffer, "Rock #2\n")){
+	else if(strcmp(buffer, "Rock #2\n")){
 		printf("this is Rock #2 mode\n");
 		setBeat(2);
 
