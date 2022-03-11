@@ -17,12 +17,6 @@ int main(){
 	beats_init();
 	web_init();
 
-	//int i = 0;
-	//while(i < 10){
-	//	Rock1();
-	//	i++;
-	//}
-
 	web_cleanup();
 	beats_cleanup();
 	joystick_cleanup();

@@ -4,6 +4,10 @@
 
 static pthread_t id;
 
+//change
+char *buff;
+const int MAX_LENGTH = 1024;
+
 static char* joy_directions[] = {joy_up, joy_down, joy_lft, joy_right, joy_in};
 
 
@@ -15,8 +19,9 @@ const char* readValFile(char *fileName)
 		exit(-1);
 	}
 	// Read string (line)
-	const int MAX_LENGTH = 1024;
-	char *buff = malloc(MAX_LENGTH);
+	
+	//const int MAX_LENGTH = 1024;
+    //char *buff = malloc(MAX_LENGTH);
 	
 	fgets(buff, MAX_LENGTH, pFile);
 	fclose(pFile);
@@ -72,7 +77,7 @@ void sleep_function(long milisec){
 
 int readJoyInput(void){
 
-	const char* direction_vals[5];
+	const static char* direction_vals[5];
 	while(1){
 		for(int j = 0; j < 5; j++){
 			direction_vals[j] = readValFile(joy_directions[j]);
@@ -117,6 +122,8 @@ void decrease_tempo(){
 
 void* joystick_routine(){
 
+	//change
+	buff = malloc(MAX_LENGTH);
 
 	export_all();
 	int i = 0;
@@ -169,6 +176,8 @@ void joystick_init(){
 	pthread_create(&id, NULL, &joystick_routine, NULL);
 }
 void joystick_cleanup(){
+	//change
+	free(buff);
 	pthread_join(id, NULL);
 }
 

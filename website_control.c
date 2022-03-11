@@ -63,17 +63,20 @@ void* routine(){
 		AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
 		AudioMixer_queueSound(&sound);
 		sleep(1);
+		AudioMixer_freeWaveFileData(&sound);
 	}
 	if(strcmp(buffer, "Snare") == 0){
 		AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 		AudioMixer_queueSound(&sound);
 		sleep(1);
+		AudioMixer_freeWaveFileData(&sound);
 	}
 	if(strcmp(buffer, "Base") == 0){
 		printf("this is the base sound \n");
 		AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
 		AudioMixer_queueSound(&sound);
 		sleep(1);
+		AudioMixer_freeWaveFileData(&sound);
 	}
 	if(strcmp(buffer, "volumeUp")==0){
 		printf("volume up\n");
@@ -114,7 +117,7 @@ void web_init(){
 }
 
 void web_cleanup(){
-	AudioMixer_freeWaveFileData(&sound);
+	//AudioMixer_freeWaveFileData(&sound);
 	pthread_join(network_thread, NULL);
 }
 

@@ -1,5 +1,4 @@
 #include "acc_sample.h"
-//#include "wave_player.h"
 #include "audioMixer_template.h"
 
 wavedata_t sound;
@@ -84,6 +83,7 @@ void readData(int file){
 			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
+			AudioMixer_freeWaveFileData(&sound);
 			
 		}
 		if(y > 200 || y < -200){
@@ -92,6 +92,7 @@ void readData(int file){
 			AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
+			AudioMixer_freeWaveFileData(&sound);
 			
 		}
 		if(z > 1200 || z < -200){
@@ -100,6 +101,7 @@ void readData(int file){
 			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
+			AudioMixer_freeWaveFileData(&sound);
 			
 		}
 	}
@@ -132,7 +134,7 @@ void acc_init(void){
 }
 
 void acc_cleanup(void){
-	AudioMixer_freeWaveFileData(&sound);
+	//AudioMixer_freeWaveFileData(&sound);
 	pthread_join(id, NULL);
 	
 }
