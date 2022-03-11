@@ -1,4 +1,4 @@
-#include "acc_sample.h"
+#include "accelerometer.h"
 #include "audioMixer_template.h"
 
 wavedata_t sound;

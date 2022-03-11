@@ -1,8 +1,8 @@
 #include "audioMixer_template.h"
-#include "acc_sample.h"
+#include "accelerometer.h"
 #include "joystick.h"
 #include "beats.h"
-#include "website_control.h"
+#include "webpage.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
