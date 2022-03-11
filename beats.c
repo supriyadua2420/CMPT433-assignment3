@@ -32,7 +32,7 @@ void Rock1(){
      AudioMixer_queueSound(&sounds[0]);
      sleep_function(wait);
 
-   /* AudioMixer_queueSound(&sounds[0]);
+    AudioMixer_queueSound(&sounds[0]);
      AudioMixer_queueSound(&sounds[2]);
      sleep_function(wait);
 
@@ -44,7 +44,7 @@ void Rock1(){
      sleep_function(wait);
 
      AudioMixer_queueSound(&sounds[0]);
-     sleep_function(wait);*/
+     sleep_function(wait);
 
     
 
