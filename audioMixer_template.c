@@ -162,11 +162,7 @@ void AudioMixer_queueSound(wavedata_t *pSound_n)
 	 
 	*/
 	
-	int count = 0;
-
-	if(count == MAX_SOUND_BITES){
-		printf(" no slots left \n");
-	}
+	
 	for(int i =0; i <MAX_SOUND_BITES; i++){
 		if(soundBites[i].pSound == NULL){
 		   pthread_mutex_lock(&audioMutex);
@@ -174,7 +170,6 @@ void AudioMixer_queueSound(wavedata_t *pSound_n)
 		     soundBites[i].pSound = pSound_n;
 		     soundBites[i].location = 0;
 
-			 count++;
 		   }
 		   pthread_mutex_unlock(&audioMutex);
 		    break;
@@ -324,18 +319,21 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 		 for(int j = 0; j < size && offset< limit; j++){
 		  
 		  short temp = soundBites[i].pSound->pData[offset];
-		  assign_value = ((int)playbackBuffer[j]) + ((int)temp);
+		  assign_value = ((int)playbackBuffer[j] + (int)temp);
 
 		  if(assign_value < SHRT_MIN)
 		  {
 			assign_value = SHRT_MIN;
+			playbackBuffer[j] = assign_value;
 		  }
-		  if(assign_value > SHRT_MAX)
+		  else if(assign_value > SHRT_MAX)
 		  {
 			assign_value = SHRT_MAX;
+			playbackBuffer[j] = assign_value;
 		  }
-
-		  playbackBuffer[j] = assign_value;
+		  else{
+			  playbackBuffer[j] = assign_value;
+		  }
 		  offset++;
 		 }
 		 soundBites[i].location = offset;

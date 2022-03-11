@@ -4,7 +4,7 @@
 
 static pthread_t id;
 
-//change
+
 char *buff;
 const int MAX_LENGTH = 1024;
 
@@ -134,24 +134,20 @@ void* joystick_routine(){
 		
 		//press left		
 		if(ans == 2){
-			//printf("you pressed left \n");
 			decrease_tempo();
 		}
 		//press right
 		else if(ans== 3){
-			//printf("you pressed right \n");
 			increase_tempo();
 		}
 		
 		//press up
 		else if(ans == 0){
-			//printf("you pressed up \n");
 			increase_volume();
 		}
 		
 		//press down
 		else if(ans == 1){
-			//printf("you pressed down \n");
 			decrease_volume();
 		}	
 		else if(ans == 4){
@@ -176,7 +172,6 @@ void joystick_init(){
 	pthread_create(&id, NULL, &joystick_routine, NULL);
 }
 void joystick_cleanup(){
-	//change
 	free(buff);
 	pthread_join(id, NULL);
 }

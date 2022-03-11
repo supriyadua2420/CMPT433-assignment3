@@ -117,7 +117,6 @@ void web_init(){
 }
 
 void web_cleanup(){
-	//AudioMixer_freeWaveFileData(&sound);
 	pthread_join(network_thread, NULL);
 }
 

@@ -1,7 +1,5 @@
 #include "beats.h"
 
-//make both beats and test them.
-
 wavedata_t sounds[4];
 int current_beat = 0;
 

@@ -134,7 +134,6 @@ void acc_init(void){
 }
 
 void acc_cleanup(void){
-	//AudioMixer_freeWaveFileData(&sound);
 	pthread_join(id, NULL);
 	
 }
