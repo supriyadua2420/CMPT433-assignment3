@@ -2,10 +2,11 @@
 #include "joystick.h"
 #include "beats.h"
 
+unsigned int len;
 
 int sockfd;
 char buffer[MAXLINE];
-char *hello = "Hello from server";
+
 struct sockaddr_in servaddr, cliaddr;
 
 pthread_t network_thread;
@@ -39,11 +40,17 @@ void create_socket(){
 
 }
 
+void send_to_web(char* hello){
+	sendto(sockfd, (const char *)hello, strlen(hello),
+		MSG_CONFIRM, (const struct sockaddr *) &cliaddr,
+			len);
+}
+
 void* routine(){
 
 	create_socket();
 	int n;
-	unsigned int len;
+	
 	
 	while(1){
 
@@ -55,10 +62,11 @@ void* routine(){
 				
 	buffer[n] = '\0';
 	printf("Instruction received : %s\n", buffer);
-	sendto(sockfd, (const char *)hello, strlen(hello),
+	/*sendto(sockfd, (const char *)hello, strlen(hello),
 		MSG_CONFIRM, (const struct sockaddr *) &cliaddr,
 			len);
-	
+	*/
+
 	if(strcmp(buffer, "HiHat") == 0){	
 		AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
 		AudioMixer_queueSound(&sound);
@@ -78,31 +86,49 @@ void* routine(){
 		AudioMixer_freeWaveFileData(&sound);
 	}
 	else if(strcmp(buffer, "volumeUp")==0){
-		//printf("volume up\n");
 		increase_volume();
+		int vol = AudioMixer_getVolume();
+		char hello []= "Volume up, Current volume: ";
+		char volum[5];
+		snprintf(volum, 3,"%d", vol); 
+		strcat(hello, volum);
+		send_to_web(hello);
+
 	}
 	else if(strcmp(buffer, "volumeDown")==0){
-		//printf("volume down\n");
 		decrease_volume();
+		int vol = AudioMixer_getVolume();
+		char hello []= "Volume down, Current volume: ";
+		char volum[5];
+		snprintf(volum, 3,"%d", vol); 
+		strcat(hello, volum);
+		send_to_web(hello);
 	}
 	else if(strcmp(buffer, "tempoUp")==0){
-		//printf("tempo up\n");
 		increase_tempo();
+		int tempo = AudioMixer_getBPM();
+		char hello []= "Tempo up, Current tempo: ";
+		char volum[5];
+		snprintf(volum, 4,"%d", tempo); 
+		strcat(hello, volum);
+		send_to_web(hello);
 	}
 	else if(strcmp(buffer, "tempoDown")==0){
-		//printf("tempo down\n");
 		decrease_tempo();
+		int tempo = AudioMixer_getBPM();
+		char hello []= "Tempo down, Current tempo: ";
+		char volum[5];
+		snprintf(volum, 4,"%d", tempo); 
+		strcat(hello, volum);
+		send_to_web(hello);
 	}
 	else if(strcmp(buffer, "None")==0){
-		//printf("this is none mode\n");
 		setBeat(0);
 	}
 	else if(strcmp(buffer, "Rock1")==0){
-		//printf("this is Rock 1 mode\n ");
 		setBeat(1);
 	}
 	else if(strcmp(buffer, "Rock2")==0){
-		//printf("this is Rock #2 mode\n");
 		setBeat(2);
 
 	}

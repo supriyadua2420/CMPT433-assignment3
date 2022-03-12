@@ -5,9 +5,6 @@ var socket = io.connect();
 // Run when webpage fully loaded
 $(document).ready(function() {
 
-	//var name = $('#status').val();
-	$('#status').html("Hello changing the message!");
-
 	
 	$('#modeNone').click(function() {
 		// Log a message and call other function.
@@ -119,20 +116,20 @@ $(document).ready(function() {
 		domObj.html(contents);
 	});
 
-	//change ends
 
-	socket.on('daError', function(result) {
+	/*socket.on('daError', function(result) {
 		var msg = divMessage('SERVER ERROR: ' + result);
 		$('#messages').append(msg);
-	});
-	
+	});*/
 	
 	socket.on('commandReply', function(result) {
 		console.log("Got result!");
 		var newDiv = $('<div></div>').text(result);
 		$('#messages').append(newDiv);
 		$('#messages').scrollTop($('#messages').prop('scrollHeight'));
+		$('#status').html(result);
 	});
+
 	
 });
 
