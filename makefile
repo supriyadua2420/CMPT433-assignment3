@@ -31,14 +31,12 @@ LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 
 
 
-all: wav
+all: wav 
 	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET)  $(LFLAGS) -lpthread -lasound
+	make --directory=web
 
 # Copy wave files to the shared folder
 wav:
 	mkdir -p $(PUBDIR)/beatbox-wav-files/
 	cp beatbox-wav-files/* $(PUBDIR)/beatbox-wav-files/
-
-clean:
-	rm -f $(OUTDIR)/$(TARGET)
 
