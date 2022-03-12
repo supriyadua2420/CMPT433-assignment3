@@ -18,8 +18,7 @@ exports.listen = function(server) {
 
 function handleCommand(socket) {
 	socket.on('proc', function(fileName) {
-		// NOTE: Very unsafe? Why?
-		// Hint: think of ../
+		
 		var absPath = "/proc/" + fileName;
 		console.log('accessing ' + absPath);
 		

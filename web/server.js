@@ -12,10 +12,15 @@ var fs   = require('fs');
 var path = require('path');
 var mime = require('mime');
 
+var options = {
+	key:  fs.readFileSync('./key.pem'),
+	cert: fs.readFileSync('./key-cert.pem')
+}
+
 /* 
  * Create the static web server
  */
-var server = http.createServer(function(request, response) {
+var server = http.createServer(options, function(request, response) {
 	var filePath = false;
 	
 	if (request.url == '/') {
