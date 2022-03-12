@@ -8,8 +8,9 @@ var socketio = require('socket.io');
 var io;
 
 exports.listen = function(server) {
-	io = socketio.listen(server);
-	io.set('log level 1');
+	//io = socketio.listen(server);
+	//io.set('log level 1');
+	io = socketio(server);
 	
 	io.sockets.on('connection', function(socket) {
 		handleCommand(socket);
@@ -20,7 +21,7 @@ function handleCommand(socket) {
 	socket.on('proc', function(fileName) {
 		
 		var absPath = "/proc/" + fileName;
-		console.log('accessing ' + absPath);
+		//console.log('accessing ' + absPath);
 		
 		fs.exists(absPath, function(exists) {
 			if (exists) {
