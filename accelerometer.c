@@ -24,25 +24,22 @@ static int initI2cBus(void)
 	return file;
 }
 
+//Set to standby mode
 void standbyMode(int file){
-	// Select mode register(0x2A)
-	// Standby mode(0x00)
 	config[0] = 0x2A;
 	config[1] = 0x00;
 	write(file, config, 2);
 }
 
+//Set to Active mode
 void activeMode(int file){
-	// Select mode register(0x2A)
-	// Active mode(0x01)
 	config[0] = 0x2A;
 	config[1] = 0x01;
 	write(file, config, 2);
 }
 
+// Set range to +/- 2g(0x00)
 void setRange(int file){
-	// Select configuration register(0x0E)
-	// Set range to +/- 2g(0x00)
 	config[0] = 0x0E;
 	config[1] = 0x00;
 	write(file, config, 2);
@@ -64,7 +61,6 @@ void readData(int file){
 	
 	wavedata_t sound;
 	// Read 7 bytes of data(0x00)
-	// staus, xAccl msb, xAccl lsb, yAccl msb, yAccl lsb, zAccl msb, zAccl lsb
 	char reg[1] = {0x00};
 	write(file, reg, 1);
 	if(read(file, data, 7) != 7)
@@ -79,7 +75,6 @@ void readData(int file){
 		
 		if(x > 200 || x < -200){
 			printf("x threshold reached : now playing Snare \n");
-			//printf("Acceleration in X-Axis : %d \n", x);
 			AudioMixer_readWaveFileIntoMemory(SNARE, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
@@ -88,7 +83,6 @@ void readData(int file){
 		}
 		if(y > 200 || y < -200){
 			printf("y threshold reached : now playing Hi-Hat \n");
-			//printf("Acceleration in Y-Axis : %d \n", y);
 			AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);
@@ -97,7 +91,6 @@ void readData(int file){
 		}
 		if(z > 1200 || z < -200){
 			printf("z threshold reached : now playing BASE_DRUM \n");
-			//printf("Acceleration in Z-Axis : %d \n", z);
 			AudioMixer_readWaveFileIntoMemory(BASE_DRUM, &sound);
 			AudioMixer_queueSound(&sound);
 			sleep(1);

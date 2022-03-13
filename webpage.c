@@ -1,3 +1,5 @@
+//Socket code source : https://www.geeksforgeeks.org/udp-server-client-implementation-c/
+
 #include "webpage.h"
 #include "joystick.h"
 #include "beats.h"
@@ -62,10 +64,6 @@ void* routine(){
 				
 	buffer[n] = '\0';
 	printf("Instruction received : %s\n", buffer);
-	/*sendto(sockfd, (const char *)hello, strlen(hello),
-		MSG_CONFIRM, (const struct sockaddr *) &cliaddr,
-			len);
-	*/
 
 	if(strcmp(buffer, "HiHat") == 0){	
 		AudioMixer_readWaveFileIntoMemory(HI_HAT, &sound);
@@ -90,7 +88,7 @@ void* routine(){
 		int vol = AudioMixer_getVolume();
 		char hello []= "Volume up, Current volume: ";
 		char volum[5];
-		snprintf(volum, 3,"%d", vol); 
+		snprintf(volum, 4,"%d", vol); 
 		strcat(hello, volum);
 		send_to_web(hello);
 
@@ -100,7 +98,7 @@ void* routine(){
 		int vol = AudioMixer_getVolume();
 		char hello []= "Volume down, Current volume: ";
 		char volum[5];
-		snprintf(volum, 3,"%d", vol); 
+		snprintf(volum, 4,"%d", vol); 
 		strcat(hello, volum);
 		send_to_web(hello);
 	}

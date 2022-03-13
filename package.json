@@ -1,0 +1,9 @@
+{
+	"name": "demo-static-server",
+	"version": "0.0.1",
+	"description": "Demo Node.js server for static content.",
+	"dependencies": {
+		"mime": "~1.2.7",
+		"socket.io": "^4.4.1"
+	}
+}

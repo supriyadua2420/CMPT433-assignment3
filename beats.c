@@ -13,6 +13,8 @@ long wait_time()
     return milisec;
 }
 
+
+//beat 1 to be played
 void Rock1(){
     long wait = wait_time();
 
@@ -48,6 +50,7 @@ void Rock1(){
 
 }
 
+//beat 2 to be played
 void Rock2(){
 
      long wait = wait_time();
@@ -93,6 +96,7 @@ void beat_change(){
 
 }
 
+//change beats using joystick
 void* beats_routine()
 {
     while(1){
@@ -101,6 +105,8 @@ void* beats_routine()
 		sleep(1);
 	}
 }
+
+
 void beats_init(){
     AudioMixer_readWaveFileIntoMemory(HI_HAT, &sounds[0]);
     AudioMixer_readWaveFileIntoMemory(SNARE, &sounds[1]);

@@ -20,9 +20,6 @@ const char* readValFile(char *fileName)
 	}
 	// Read string (line)
 	
-	//const int MAX_LENGTH = 1024;
-    //char *buff = malloc(MAX_LENGTH);
-	
 	fgets(buff, MAX_LENGTH, pFile);
 	fclose(pFile);
 
@@ -93,36 +90,51 @@ int readJoyInput(void){
 }
 
 void increase_volume(){
+
 	int prev_volume = AudioMixer_getVolume();
-	int current_volume = prev_volume + 5;
-	AudioMixer_setVolume(current_volume);
-	printf("volume set to : %d \n", current_volume);
+	int current_volume = 0;
+	if(prev_volume >= 0 && prev_volume <= 100){
+		current_volume = prev_volume + 5;
+		AudioMixer_setVolume(current_volume);
+		printf("volume set to : %d \n", current_volume);
+	} 
+	
 }
 
 void decrease_volume(){
 	int prev_volume = AudioMixer_getVolume();
-	int current_volume = prev_volume - 5;
-	AudioMixer_setVolume(current_volume);
-	printf("volume set to : %d \n", current_volume);
+	int current_volume = 0;
+	if(prev_volume >= 0 && prev_volume <= 100){
+		current_volume = prev_volume - 5;
+		AudioMixer_setVolume(current_volume);
+		printf("volume set to : %d \n", current_volume);
+	} 
+	
 }
 
 void increase_tempo(){
+
 	int prev_BPM = AudioMixer_getBPM();
-	int current_BPM = prev_BPM + 5;
+	int current_BPM = 0;
+	if(prev_BPM >= 40 && prev_BPM <= 300){
+		current_BPM =prev_BPM + 5;
+	}
 	AudioMixer_setBPM(current_BPM);
 	printf("BPM set to : %d \n", current_BPM);
 }
 
 void decrease_tempo(){
 	int prev_BPM = AudioMixer_getBPM();
-	int current_BPM = prev_BPM - 5;
+	int current_BPM = 0;
+	if(prev_BPM >= 40 && prev_BPM <= 300){
+		current_BPM =prev_BPM - 5;
+	}
 	AudioMixer_setBPM(current_BPM);
 	printf("BPM set to : %d \n", current_BPM);
 }
 
 void* joystick_routine(){
 
-	//change
 	buff = malloc(MAX_LENGTH);
 
 	export_all();

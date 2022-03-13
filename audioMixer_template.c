@@ -314,12 +314,12 @@ static void fillPlaybackBuffer(short *playbackBuffer, int size)
 		
 		 int offset = soundBites[i].location;
 		 int limit = soundBites[i].pSound->numSamples;
-		 int assign_value = 0;
+		 long assign_value = 0;
 		 
 		 for(int j = 0; j < size && offset< limit; j++){
 		  
 		  short temp = soundBites[i].pSound->pData[offset];
-		  assign_value = ((int)playbackBuffer[j] + (int)temp);
+		  assign_value = ((long)playbackBuffer[j] + (long)temp);
 
 		  if(assign_value < SHRT_MIN)
 		  {
